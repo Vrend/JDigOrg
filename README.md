@@ -14,4 +14,4 @@ This is the eclipse folder for my project. Here you can find both the source .ja
 
 
 
-This project is protected under the GNU Public License 1.3
+This project is protected under the GNU Public License
