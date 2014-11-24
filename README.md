@@ -8,7 +8,7 @@ This Digital Organizer serves to be a simple solution for keeping track of assig
 
 If you just want the executable for this then visit: http://www.digitalorganizer.tk
 
-
+View the shortcuts in the shortcut file
 
 This is the eclipse folder for my project. Here you can find both the source .java files and the compiled .class files.
 

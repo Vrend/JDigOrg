@@ -1,4 +1,5 @@
 import javax.swing.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,6 +63,11 @@ public class Digital_Organizer extends JFrame implements ActionListener
 	
 	int arraylength = anames.length;
 	
+	
+	
+		
+	
+	
 	public Digital_Organizer(int size1, int size2, String name)
 	{
 		super(name);
@@ -89,6 +95,89 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		cp.add("North", image);
 		cp.add("Center", data);
 		cp.add("South", pnl);
+		
+				//Keybinding for adding a class
+				KeyStroke addckey = KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_DOWN_MASK);
+				
+				Action addcaction = new AbstractAction()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						addC.createClass();
+					}
+				};
+				
+				//keybinding for adding an assignment
+				KeyStroke addhwkey = KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.ALT_DOWN_MASK);
+				
+				Action addhwaction = new AbstractAction()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						addH.createHW();
+					}
+				};
+				
+				//keybinding for removing a class
+				
+				KeyStroke remckey = KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.ALT_DOWN_MASK);
+				
+				Action remcaction = new AbstractAction()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						remC.remClass();
+					}
+				};
+				
+				
+				//Keybinding for removing an assignment
+				
+				KeyStroke remhwkey = KeyStroke.getKeyStroke(KeyEvent.VK_J, InputEvent.ALT_DOWN_MASK);
+				
+				Action remhwaction = new AbstractAction()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						remH.removeAssignment();
+					}
+				};
+				
+				
+				//Keybind for removal of all assignments
+				
+				KeyStroke remallkey = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.ALT_DOWN_MASK);
+				
+				Action remallaction = new AbstractAction()
+				{
+					public void actionPerformed(ActionEvent e)
+					{
+						remA.removeA();
+					}
+				};
+		
+		
+		pnl.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(addckey, "ADDC");
+		
+		pnl.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(remallkey, "REMALL");
+		
+		pnl.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(remhwkey, "REMHW");
+		
+		pnl.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(addhwkey, "ADDHW");
+		
+		pnl.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(remckey, "REMC");
+		
+		pnl.getActionMap().put("ADDC", addcaction);
+		
+		pnl.getActionMap().put("REMHW", remhwaction);
+		
+		pnl.getActionMap().put("REMALL", remallaction);
+		
+		pnl.getActionMap().put("REMC", remcaction);
+		
+		pnl.getActionMap().put("ADDHW", addhwaction);
+		
+		
 		
 		num.setText("01.\n02.\n03.\n04.\n05.\n06.\n07.\n08.\n09.\n10.\n11.\n12.\n13.\n14.\n15.\n16.\n17.\n18.");
 		num.setEditable(false);
@@ -353,6 +442,7 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		
 		
 	}
+
 	
 
 }

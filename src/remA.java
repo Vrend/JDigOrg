@@ -4,7 +4,7 @@ import java.io.*;
 
 import javax.swing.*;
 
-public class remA extends JFrame implements ActionListener
+public class remA extends JFrame implements ActionListener, KeyListener
 {
 
 	Container c = getContentPane();
@@ -35,7 +35,17 @@ public class remA extends JFrame implements ActionListener
 		
 		yes.addActionListener(this);
 		no.addActionListener(this);
+		
+		yes.addKeyListener(this);
+		no.addKeyListener(this);
+		top.addKeyListener(this);
+		bot.addKeyListener(this);
+		
 		setVisible(true);
+		
+		top.setFocusable(true);
+		bot.setFocusable(true);
+		
 	}
 	
 	
@@ -71,6 +81,42 @@ public class remA extends JFrame implements ActionListener
 			dispose();
 		}
 		
+	}
+
+
+	public void keyPressed(KeyEvent e) 
+	{
+		if(e.getKeyChar() == KeyEvent.VK_ENTER)
+		{
+			File classes = new File("classes.dat");
+			File hw = new File("hw.dat");
+			
+			hw.setWritable(true);
+			hw.delete();
+
+			classes.setWritable(true);
+			classes.delete();
+			
+			Digital_Organizer.dat1.setText("");
+			Digital_Organizer.dat2.setText("");
+			Digital_Organizer.dat3.setText("");
+			Digital_Organizer.dat4.setText("");
+
+			dispose();
+		}
+		
+		if(e.getKeyChar() == KeyEvent.VK_ESCAPE)
+		{
+			dispose();
+		}
+	}
+
+	public void keyReleased(KeyEvent e) 
+	{	
+	}
+
+	public void keyTyped(KeyEvent e) 
+	{	
 	}
 
 	

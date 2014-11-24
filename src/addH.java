@@ -7,7 +7,7 @@ import java.util.Calendar;
 import javax.swing.*;
 
 
-public class addH extends JFrame implements ActionListener, ItemListener
+public class addH extends JFrame implements ActionListener, ItemListener, KeyListener
 {
 	
 	String sname;
@@ -58,6 +58,7 @@ public class addH extends JFrame implements ActionListener, ItemListener
 	public addH()
 	{
 		super("Add an Assignment");
+		setFocusable(true);
 		setSize(500, 250);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		add(top);
@@ -76,8 +77,9 @@ public class addH extends JFrame implements ActionListener, ItemListener
 		mid.add(lb2);
 		date.setText("MM/DD/YYYY or a weekday");
 		date.setForeground(grey);
+		
 		date.addFocusListener(new FocusListener() {
-
+		
 			
 			public void focusGained(FocusEvent fe) 
 			{
@@ -93,6 +95,8 @@ public class addH extends JFrame implements ActionListener, ItemListener
 			}
 
 		});
+		
+		
 		cancel.addActionListener(this);
 		ok.addActionListener(this);
 		cc.addItemListener(this);
@@ -100,7 +104,14 @@ public class addH extends JFrame implements ActionListener, ItemListener
 		cont.add("North", top);
 		cont.add("Center", mid);
 		cont.add("South", bot);
+		
+		name.addKeyListener(this);
+		desc.addKeyListener(this);
+		date.addKeyListener(this);
+		
 		setVisible(true);
+		
+		name.requestFocusInWindow();
 		
 	}
 	
@@ -329,6 +340,215 @@ public class addH extends JFrame implements ActionListener, ItemListener
 				changed = false;
 			}
 		}
+	}
+
+
+	
+	public void keyPressed(KeyEvent e) 
+	{
+		if(e.getKeyChar() == KeyEvent.VK_ENTER)
+		{
+			int ndays = 0;
+			int today = 0;
+			int nday = 0;
+			
+			Calendar cal = Calendar.getInstance();
+			today = cal.get(Calendar.DAY_OF_WEEK);
+			
+			if(name.getText().trim().length() > 0 && name.getText().trim().length() < 31 && changed == false)
+			{
+				if(desc.getText().trim().length() > 0)
+				{
+					if(date.getText().trim().length() > 0)
+					{
+						sdate = date.getText().trim();
+						sname = name.getText().trim();
+						sdesc = desc.getText().trim();
+					}
+					
+					else
+					{
+						sname = name.getText().trim();
+						sdate = "none";
+						sdesc = desc.getText().trim();
+					}
+				}
+				
+				else
+				{
+					
+					if(date.getText().trim().length() > 0)
+					{
+						sdate = date.getText().trim();
+						sname = name.getText().trim();
+						sdesc = "none";
+					}
+					
+					else
+					{
+						sname = name.getText().trim();
+						sdate = "none";
+						sdesc = "none";
+					}
+						
+				}
+				
+				if(sdate.equals("none"))
+				{
+					test = true;
+					int newtoday = today + 1 ;
+					
+					if(newtoday > 7)
+					{
+						newtoday = 1;
+					}
+					
+					switch(newtoday)
+					{
+					case 1 : sdate = "Sunday"; break;
+					case 2 : sdate = "Monday"; break;
+					case 3 : sdate = "Tuesday"; break;
+					case 4 : sdate = "Wednesday"; break;
+					case 5 : sdate = "Thursday"; break;
+					case 6 : sdate = "Friday"; break;
+					case 7 : sdate = "Saturday"; break;
+					}
+					
+					days = "Due Tomorrow";
+				}
+				
+				else if(sdate.equals("Sunday") || sdate.equals("Monday") || sdate.equals("Tuesday") || sdate.equals("Wednesday") || sdate.equals("Thursday") || sdate.equals("Friday") || sdate.equals("Saturday"))
+				{
+					test = true;
+					
+					switch(sdate)
+					{
+					case "Sunday" : nday = 1; break;
+					case "Monday" : nday = 2; break;
+					case "Tuesday" : nday = 3; break;
+					case "Wednesday" : nday = 4; break;
+					case "Thursday" : nday = 5; break;
+					case "Friday" : nday = 6; break;
+					case "Saturday" : nday = 7; break;
+					}
+					
+					if(today > nday)
+					{
+						ndays = 7 - today + nday;
+						days = "Due in " + Integer.toString(ndays) + " days";
+					}
+					else if((today+1) == nday)
+					{
+						days = "Due Tomorrow";
+					}
+					else if(today == nday)
+					{
+						days = "Due Today";
+					}
+					else
+					{
+						ndays = nday - today;
+						days = "Due in " + Integer.toString(ndays) + " days";
+					}
+				}
+				
+				else if(sdate.contains("/"))
+				{
+					int amount = 0;
+					test = true;
+					Calendar cal1 = Calendar.getInstance();
+					
+					int cmonth = cal1.get(Calendar.MONTH);
+					int cday = cal1.get(Calendar.DAY_OF_MONTH);
+					int cyear = cal1.get(Calendar.YEAR);
+					cmonth++;
+					
+					String original = sdate;
+					String[] split = original.split("/");
+					
+					int umonth = Integer.parseInt(split[0]);
+					int uday = Integer.parseInt(split[1]);
+					int uyear = Integer.parseInt(split[2]);
+					
+					if(umonth == cmonth && uyear == cyear)
+					{
+						amount = uday - cday;
+						days = "Due in " + Integer.toString(amount) + " days";
+					}
+					
+					else
+					{
+						days = "Due on " + original;
+					}
+				}
+				
+				else
+				{
+					test = false;
+				}
+				
+				if(test == true)
+				{
+					
+				try
+				{
+					FileWriter fw = new FileWriter("hw.dat", true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					
+					bw.append(sname);
+					bw.newLine();
+					bw.append(sdesc);
+					bw.newLine();
+					bw.append(sclass);
+					bw.newLine();
+					bw.append(sdate);
+					bw.newLine();
+					bw.close();
+					fw.close();
+				}
+				
+				catch(IOException e1)
+				{
+					e1.printStackTrace();
+				}
+				
+				try 
+				{
+					Digital_Organizer.updateHW();
+				} 
+				catch (IOException e1) 
+				{
+					e1.printStackTrace();
+				}
+				
+				Digital_Organizer.dat1.append(sname + "\n");
+				Digital_Organizer.dat2.append(sdesc + "\n");
+				Digital_Organizer.dat3.append(sclass + "\n");
+				Digital_Organizer.dat4.append(days + "\n");
+				dispose();
+				
+				}
+				
+			}
+		}
+		
+		if(e.getKeyChar() == KeyEvent.VK_ESCAPE)
+		{
+			dispose();
+		}
+		
+	}
+
+
+	
+	public void keyReleased(KeyEvent e) 
+	{
+	}
+
+
+	
+	public void keyTyped(KeyEvent e) 
+	{
 	}
 	
 }

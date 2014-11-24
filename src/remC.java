@@ -5,7 +5,7 @@ import java.io.*;
 import javax.swing.*;
 
 
-public class remC extends JFrame implements ActionListener, ItemListener
+public class remC extends JFrame implements ActionListener, ItemListener, KeyListener
 {
 
 	String rclass;
@@ -38,7 +38,16 @@ public class remC extends JFrame implements ActionListener, ItemListener
 		a.addActionListener(this);
 		c.addActionListener(this);
 		cb.addItemListener(this);
+		cb.addKeyListener(this);
+		top.addKeyListener(this);
+		
 		setVisible(true);
+		
+		top.setFocusable(true);
+		
+		
+		
+		
 	}
 	
 	public static void remClass()
@@ -130,6 +139,89 @@ public class remC extends JFrame implements ActionListener, ItemListener
 		{
 			rclass = (String) e.getItem();
 		}
+	}
+
+	
+	public void keyPressed(KeyEvent e) 
+	{
+		if(e.getKeyChar() == KeyEvent.VK_ENTER)
+		{
+			String place;
+			int count = 0;
+			
+			
+			try
+			{
+				File tmp = new File("tclasses.tmp");
+				File old = new File("classes.dat");
+				
+				tmp.createNewFile();
+				
+				FileWriter filew = new FileWriter(tmp, true);
+				BufferedWriter buffw = new BufferedWriter(filew);
+				
+				FileReader filer = new FileReader(old);
+				BufferedReader buffr = new BufferedReader(filer);
+				
+				while((place = buffr.readLine()) != null)
+				{
+					if(place.equals(rclass))
+					{
+						
+					}
+					
+					else
+					{
+						buffw.write(place);
+						buffw.newLine();
+					}
+				}
+				
+				buffw.close();
+				filew.close();
+				buffr.close();
+				filer.close();
+				
+				
+				old.setWritable(true);
+				old.delete();
+				tmp.setWritable(true);
+				tmp.renameTo(old);
+			}
+			
+			catch(IOException exc)
+			{
+				exc.printStackTrace();
+			}
+			
+			try 
+			{
+				Digital_Organizer.updateClass();
+			} 
+			
+			catch (IOException e1) 
+			{
+				e1.printStackTrace();
+			}
+			
+			dispose();
+		}
+		
+		if(e.getKeyChar() == KeyEvent.VK_ESCAPE)
+		{
+			dispose();
+		}
+		
+	}
+
+	
+	public void keyReleased(KeyEvent e) 
+	{	
+	}
+
+	
+	public void keyTyped(KeyEvent e) 
+	{	
 	}
 
 }
