@@ -263,6 +263,11 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		
 		if(classes.exists())
 		{
+			if(!hw.exists())
+			{
+				hw.createNewFile();
+			}
+			
 			FileReader fr = new FileReader("classes.dat");
 			BufferedReader bf = new BufferedReader(fr);
 	
@@ -272,15 +277,14 @@ public class Digital_Organizer extends JFrame implements ActionListener
 			}
 			
 			classlist = list.toArray(new String[0]);
-			
 			fr.close();
 			bf.close();
 		}
 		
 		else
 		{
-			classes.createNewFile();
-			hw.createNewFile();
+				classes.createNewFile();		
+				hw.createNewFile();
 		}
 	}
 	
@@ -342,8 +346,7 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		adescs = ldescs.toArray(new String[0]);
 		aclasses = lclasses.toArray(new String[0]);
 		adates = ldates.toArray(new String[0]);
-		
-		
+			
 	}
 	
 	static void timeRemove()
