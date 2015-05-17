@@ -64,10 +64,6 @@ public class Digital_Organizer extends JFrame implements ActionListener
 	int arraylength = anames.length;
 	
 	
-	
-		
-	
-	
 	public Digital_Organizer(int size1, int size2, String name)
 	{
 		super(name);
@@ -357,7 +353,6 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		int day = cal.get(Calendar.DAY_OF_WEEK);
 		int temp = 0;
 		int time = 0;
-		boolean test = true;
 		String stime = null;
 		
 		int count = adates.length;
@@ -367,7 +362,6 @@ public class Digital_Organizer extends JFrame implements ActionListener
 			stime = null;
 			time = 0;
 			temp = 0;
-			test = true;
 			
 			switch(adates[x])
 			{
@@ -432,7 +426,21 @@ public class Digital_Organizer extends JFrame implements ActionListener
 				if(umonth == cmonth && uyear == cyear)
 				{
 					amount = uday - cday;
-					adates[x] = "Due in " + Integer.toString(amount) + " days";
+					
+					if(amount == 1)
+					{
+						adates[x] = "Due Tomorrow";
+					}
+					
+					else if(amount == 0)
+					{
+						adates[x] = "Due Today";
+					}
+					
+					else
+					{
+						adates[x] = "Due in " + Integer.toString(amount) + " days";
+					}
 				}
 				
 				else
