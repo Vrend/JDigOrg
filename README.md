@@ -6,7 +6,7 @@ Java Digital Organizer
 
 This Digital Organizer serves to be a simple solution for keeping track of assignments
 
-If you just want the executable for this then visit: http://www.jorganizer.tk
+If you just want the executable for this then download it here: http://www.mediafire.com/download/7t6g05gm4gei3dg/Digital+Organizer+3.0.zip
 
 View the shortcuts in the shortcut file
 
