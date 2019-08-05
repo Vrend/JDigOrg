@@ -1,5 +1,4 @@
-.idea/
-bin/
-
 School Organizer.iml
 *.dat
+/.idea/
+/bin/
