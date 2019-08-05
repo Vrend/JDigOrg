@@ -1,5 +1,5 @@
-/**
- *     This file is part of JDigOrg.
+/*
+    This file is part of JDigOrg.
 
     JDigOrg is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU General Public License
     along with JDigOrg.  If not, see <http://www.gnu.org/licenses/>.
-    */
+*/
 import java.awt.Container;
 import java.awt.event.*;
 import java.io.*;
@@ -22,29 +22,25 @@ import javax.swing.*;
 public class remA extends JFrame implements ActionListener, KeyListener
 {
 
-	Container c = getContentPane();
+	private JButton yes = new JButton("Yes");
 	
-	JPanel top = new JPanel();
-	
-	JPanel bot = new JPanel();
-	
-	JButton yes = new JButton("Yes");
-	
-	JButton no = new JButton("No");
-	
-	JLabel lbl = new JLabel("Are you sure you want to delete ALL of your classes and assignments?");
-	
-	public remA()
+	private JButton no = new JButton("No");
+
+	private remA()
 	{
 		super("Are you sure?");
 		setSize(500, 125);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		JPanel top = new JPanel();
 		add(top);
+		JPanel bot = new JPanel();
 		add(bot);
+		JLabel lbl = new JLabel("Are you sure you want to delete ALL of your classes and assignments?");
 		top.add(lbl);
 		bot.add(yes);
 		bot.add(no);
-		
+
+		Container c = getContentPane();
 		c.add("North", top);
 		c.add("South", bot);
 		
@@ -64,9 +60,9 @@ public class remA extends JFrame implements ActionListener, KeyListener
 	}
 	
 	
-	public static void removeA()
+	static void removeA()
 	{
-		remA guii = new remA();
+		new remA();
 	}
 	
 	

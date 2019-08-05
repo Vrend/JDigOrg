@@ -1,5 +1,5 @@
-/**
- *     This file is part of JDigOrg.
+/*
+    This file is part of JDigOrg.
 
     JDigOrg is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU General Public License
     along with JDigOrg.  If not, see <http://www.gnu.org/licenses/>.
-    */
+*/
 import java.awt.Container;
 import java.awt.event.*;
 
@@ -23,27 +23,25 @@ import java.io.*;
 public class remH extends JFrame implements ActionListener, ItemListener, KeyListener
 {
 	
-	String iname;
+	private String iname;
+
+	private JButton accept = new JButton("Yes");
+	private JButton cancel = new JButton("No");
+	private JComboBox cb = new JComboBox(Digital_Organizer.anames);
 	
-	Container c = getContentPane();
-	
-	JPanel top = new JPanel();
-	JPanel bot = new JPanel();
-	
-	JButton accept = new JButton("Yes");
-	JButton cancel = new JButton("No");
-	JComboBox cb = new JComboBox(Digital_Organizer.anames);
-	
-	public remH()
+	private remH()
 	{
 		super("Remove an assignment");
 		setSize(500, 150);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		JPanel top = new JPanel();
 		add(top);
+		JPanel bot = new JPanel();
 		add(bot);
 		top.add(cb);
 		bot.add(accept);
 		bot.add(cancel);
+		Container c = getContentPane();
 		c.add("North", top);
 		c.add("South", bot);
 		
@@ -64,12 +62,12 @@ public class remH extends JFrame implements ActionListener, ItemListener, KeyLis
 	}
 	
 	
-	public static void removeAssignment()
+	static void removeAssignment()
 	{
 		File c = new File("hw.dat");
 		if(c.length() > 0)
 		{
-			remH r = new remH();
+			new remH();
 		}	
 	}
 	

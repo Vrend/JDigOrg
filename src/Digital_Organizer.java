@@ -1,5 +1,5 @@
-/**
- *     This file is part of JDigOrg.
+/*
+    This file is part of JDigOrg.
 
     JDigOrg is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU General Public License
     along with JDigOrg.  If not, see <http://www.gnu.org/licenses/>.
-    */
+*/
 import javax.swing.*;
 
 import java.io.*;
@@ -20,52 +20,31 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Objects;
 
 public class Digital_Organizer extends JFrame implements ActionListener
 {
-	public static String[] classlist;
+	static String[] classlist;
 	
-	public static String[] anames;
+	static String[] anames;
 	
-	public static String[] adescs;
+	static String[] adescs;
 	
-	public static String[] aclasses;
+	static String[] aclasses;
 	
-	public static String[] adates;
+	static String[] adates;
+
+	private JButton addClass = new JButton("Add a class");
 	
-	static int color = 0;
+	private JButton addHW = new JButton("Add an assignment");
 	
-	ClassLoader ldr = this.getClass().getClassLoader();
+	private JButton remClass = new JButton("Remove a class");
 	
-	Container cp = getContentPane();
+	private JButton remall = new JButton("Remove EVERYTHING");
 	
-	Color cdate = new Color(255, 0, 0);
-	
-	Color cclas = new Color(25, 180, 40);
-	
-	Color cname = new Color(0, 0, 255);
-	
-	JPanel image = new JPanel();
-	JPanel data = new JPanel();
-	JPanel pnl = new JPanel();
-	
-	JButton addClass = new JButton("Add a class");
-	
-	JButton addHW = new JButton("Add an assignment");
-	
-	JButton remClass = new JButton("Remove a class");
-	
-	JButton remall = new JButton("Remove EVERYTHING");
-	
-	JButton remHW = new JButton("Remove an assignment");
-	
-	
-	ImageIcon title = new ImageIcon(ldr.getResource("banner.png"));
-	
-	JLabel banner = new JLabel(title);
-	
-	JTextArea num = new JTextArea(18, 2);
-	
+	private JButton remHW = new JButton("Remove an assignment");
+
+
 	static JTextArea dat1 = new JTextArea(18, 20);
 	
 	static JTextArea dat2 = new JTextArea(18, 20);
@@ -74,25 +53,30 @@ public class Digital_Organizer extends JFrame implements ActionListener
 	
 	static JTextArea dat4 = new JTextArea(18, 20);
 	
-	static JScrollPane dat = new JScrollPane(dat2);
-	
-	int arraylength = anames.length;
-	
-	
-	public Digital_Organizer(int size1, int size2, String name)
+	private static JScrollPane dat = new JScrollPane(dat2);
+
+
+	private Digital_Organizer(int size1, int size2, String name)
 	{
 		super(name);
 		setSize(size1, size2);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		JPanel image = new JPanel();
 		add(image);
+		JPanel data = new JPanel();
 		add(data);
+		JPanel pnl = new JPanel();
 		add(pnl);
+		ClassLoader ldr = this.getClass().getClassLoader();
+		ImageIcon title = new ImageIcon(Objects.requireNonNull(ldr.getResource("banner.png")));
+		JLabel banner = new JLabel(title);
 		image.add(banner);
 		pnl.add(addClass);
 		pnl.add(addHW);
 		pnl.add(remClass);
 		pnl.add(remHW);
 		pnl.add(remall);
+		JTextArea num = new JTextArea(18, 2);
 		data.add(num);
 		data.add(dat1);
 		data.add(dat);
@@ -103,6 +87,7 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		remClass.addActionListener(this);
 		remall.addActionListener(this);
 		remHW.addActionListener(this);
+		Container cp = getContentPane();
 		cp.add("North", image);
 		cp.add("Center", data);
 		cp.add("South", pnl);
@@ -192,10 +177,10 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		
 		num.setText("01.\n02.\n03.\n04.\n05.\n06.\n07.\n08.\n09.\n10.\n11.\n12.\n13.\n14.\n15.\n16.\n17.\n18.");
 		num.setEditable(false);
-		
-		for(int n = 0; n < arraylength; n++)
-		{
-			dat1.append(anames[n] + "\n");
+
+		int arraylength = anames.length;
+		for (String aname : anames) {
+			dat1.append(aname + "\n");
 		}
 		
 		for(int de = 0; de < arraylength; de++)
@@ -210,9 +195,12 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		{
 			dat4.append(adates[da] + "\n");	
 		}
-		
+
+		Color cname = new Color(0, 0, 255);
 		dat1.setForeground(cname);
+		Color cclas = new Color(25, 180, 40);
 		dat3.setForeground(cclas);
+		Color cdate = new Color(255, 0, 0);
 		dat4.setForeground(cdate);
 		dat1.setEditable(false);
 		dat2.setEditable(false);
@@ -228,7 +216,7 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		updateHW();
 		timeRemove();
 		
-		Digital_Organizer gui = new Digital_Organizer(1100, 500, "Digital Organizer");
+		new Digital_Organizer(1100, 500, "Digital Organizer");
 	}
 
 
@@ -264,9 +252,9 @@ public class Digital_Organizer extends JFrame implements ActionListener
 	}
 	
 	
-	public static void updateClass() throws IOException
+	static void updateClass() throws IOException
 	{
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		String placeholder;
 		
 		File classes = new File("classes.dat");
@@ -294,17 +282,17 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		
 		else
 		{
-				classes.createNewFile();		
-				hw.createNewFile();
+			classes.createNewFile();
+			hw.createNewFile();
 		}
 	}
 	
-	public static void updateHW() throws IOException
+	static void updateHW() throws IOException
 	{
-		ArrayList<String> lnames = new ArrayList<String>();
-		ArrayList<String> ldescs = new ArrayList<String>();
-		ArrayList<String> lclasses = new ArrayList<String>();
-		ArrayList<String> ldates = new ArrayList<String>();
+		ArrayList<String> lnames = new ArrayList<>();
+		ArrayList<String> ldescs = new ArrayList<>();
+		ArrayList<String> lclasses = new ArrayList<>();
+		ArrayList<String> ldates = new ArrayList<>();
 		
 		
 		String temp;
@@ -366,16 +354,14 @@ public class Digital_Organizer extends JFrame implements ActionListener
 		Calendar cal = Calendar.getInstance();
 		
 		int day = cal.get(Calendar.DAY_OF_WEEK);
-		int temp = 0;
-		int time = 0;
-		String stime = null;
+		int temp;
+		int time;
+		String stime;
 		
 		int count = adates.length;
 		
 		for(int x = 0; x < count; x++)
 		{
-			stime = null;
-			time = 0;
 			temp = 0;
 			
 			switch(adates[x])
@@ -422,7 +408,7 @@ public class Digital_Organizer extends JFrame implements ActionListener
 			
 			else if(adates[x].contains("/"))
 			{
-				int amount = 0;
+				int amount;
 				
 				Calendar ca = Calendar.getInstance();
 				
@@ -454,7 +440,7 @@ public class Digital_Organizer extends JFrame implements ActionListener
 					
 					else
 					{
-						adates[x] = "Due in " + Integer.toString(amount) + " days";
+						adates[x] = "Due in " + amount + " days";
 					}
 				}
 				

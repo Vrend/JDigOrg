@@ -1,5 +1,5 @@
-/**
- *     This file is part of JDigOrg.
+/*
+    This file is part of JDigOrg.
 
     JDigOrg is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU General Public License
     along with JDigOrg.  If not, see <http://www.gnu.org/licenses/>.
-    */
+*/
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.*;
@@ -25,72 +25,60 @@ import javax.swing.*;
 public class addH extends JFrame implements ActionListener, ItemListener, KeyListener
 {
 	
-	String sname;
-	String sdesc;
-	String sdate;
-	String sclass;
-	String sudate;
+	private String sname;
+	private String sdesc;
+	private String sdate;
+	private String sclass;
+
+	private boolean changed = false;
+	private boolean test = true;
+	private static String days = null;
+
+	private JTextField name = new JTextField(20);
 	
-	boolean changed = false;
-	boolean test = true;
-	static String days = null;
+	private JTextField desc = new JTextField(40);
 	
-	JPanel top = new JPanel();
+	private JTextField date = new JTextField(15);
 	
-	JPanel mid = new JPanel();
+	private JButton ok = new JButton("OK");
 	
-	JPanel bot = new JPanel();
-	
-	Container cont = getContentPane();
-	
-	JTextField name = new JTextField(20);
-	
-	JTextField desc = new JTextField(40);
-	
-	JTextField date = new JTextField(15);
-	
-	JButton ok = new JButton("OK");
-	
-	JButton cancel = new JButton("Cancel");
-	
-	JLabel lb2  = new JLabel("Leave the date blank if due tomorrow");
-	
-	JLabel dt  = new JLabel("Date:");
-	
-	JLabel ld  = new JLabel("Description:");
-	
-	JLabel ln  = new JLabel("Name:");
-	
-	JLabel lc = new JLabel("Class:");
-	
-	JComboBox cc = new JComboBox(Digital_Organizer.classlist);
-	
-	Color grey = new Color(161, 161, 161);
-	
-	Color black = new Color(0, 0 , 0);
+	private JButton cancel = new JButton("Cancel");
+
+	private JComboBox cc = new JComboBox(Digital_Organizer.classlist);
+
+	private Color black = new Color(0, 0 , 0);
 	
 	
-	public addH()
+	private addH()
 	{
 		super("Add an Assignment");
 		setFocusable(true);
 		setSize(500, 250);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		JPanel top = new JPanel();
 		add(top);
+		JPanel mid = new JPanel();
 		add(mid);
+		JPanel bot = new JPanel();
 		add(bot);
+		JLabel ln = new JLabel("Name:");
 		top.add(ln);
 		top.add(name);
+		JLabel ld = new JLabel("Description:");
 		mid.add(ld);
 		mid.add(desc);
+		JLabel lc = new JLabel("Class:");
 		mid.add(lc);
 		mid.add(cc);
+		JLabel dt = new JLabel("Date:");
 		mid.add(dt);
 		mid.add(date);
 		bot.add(ok);
 		bot.add(cancel);
+		JLabel lb2 = new JLabel("Leave the date blank if due tomorrow");
 		mid.add(lb2);
 		date.setText("MM/DD/YYYY or a weekday");
+		Color grey = new Color(161, 161, 161);
 		date.setForeground(grey);
 		
 		date.addFocusListener(new FocusListener() {
@@ -116,6 +104,7 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 		ok.addActionListener(this);
 		cc.addItemListener(this);
 		cc.setSelectedItem(null);
+		Container cont = getContentPane();
 		cont.add("North", top);
 		cont.add("Center", mid);
 		cont.add("South", bot);
@@ -131,12 +120,12 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 	}
 	
 	
-	public static void createHW()
+	static void createHW()
 	{
 		File c = new File("classes.dat");
 		if(c.length() > 0)
 		{
-			addH gu = new addH();
+			new addH();
 		}
 	}
 	
@@ -152,14 +141,14 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 		if(e.getSource() == ok)
 		{		
 			
-			int ndays = 0;
-			int today = 0;
+			int ndays;
+			int today;
 			int nday = 0;
 			
 			Calendar cal = Calendar.getInstance();
 			today = cal.get(Calendar.DAY_OF_WEEK);
 			
-			if(name.getText().trim().length() > 0 && name.getText().trim().length() < 31 && changed == false)
+			if(name.getText().trim().length() > 0 && name.getText().trim().length() < 31 && !changed)
 			{
 				if(desc.getText().trim().length() > 0)
 				{
@@ -238,8 +227,8 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					
 					if(today > nday)
 					{
-						ndays = 7 - today + nday;
-						days = "Due in " + Integer.toString(ndays) + " days";
+						ndays = (7 - today) + nday;
+						days = "Due in " + ndays + " days";
 					}
 					else if((today+1) == nday)
 					{
@@ -252,13 +241,13 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					else
 					{
 						ndays = nday - today;
-						days = "Due in " + Integer.toString(ndays) + " days";
+						days = "Due in " + ndays + " days";
 					}
 				}
 				
 				else if(sdate.contains("/"))
 				{
-					int amount = 0;
+					int amount;
 					test = true;
 					Calendar cal1 = Calendar.getInstance();
 					
@@ -277,7 +266,7 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					if(umonth == cmonth && uyear == cyear)
 					{
 						amount = uday - cday;
-						days = "Due in " + Integer.toString(amount) + " days";
+						days = "Due in " + amount + " days";
 					}
 					
 					else
@@ -291,7 +280,7 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					test = false;
 				}
 				
-				if(test == true)
+				if(test)
 				{
 					
 				try
@@ -345,15 +334,8 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 		if(e.getItemSelectable() == cc)
 		{
 			sclass = (String) e.getItem();
-			
-			if(cc.getSelectedItem() == null)
-			{
-				changed = true;
-			}
-			else
-			{
-				changed = false;
-			}
+
+			changed = cc.getSelectedItem() == null;
 		}
 	}
 
@@ -363,14 +345,14 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 	{
 		if(e.getKeyChar() == KeyEvent.VK_ENTER)
 		{
-			int ndays = 0;
-			int today = 0;
+			int ndays;
+			int today;
 			int nday = 0;
 			
 			Calendar cal = Calendar.getInstance();
 			today = cal.get(Calendar.DAY_OF_WEEK);
 			
-			if(name.getText().trim().length() > 0 && name.getText().trim().length() < 31 && changed == false)
+			if(name.getText().trim().length() > 0 && name.getText().trim().length() < 31 && !changed)
 			{
 				if(desc.getText().trim().length() > 0)
 				{
@@ -450,7 +432,7 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					if(today > nday)
 					{
 						ndays = 7 - today + nday;
-						days = "Due in " + Integer.toString(ndays) + " days";
+						days = "Due in " + ndays + " days";
 					}
 					else if((today+1) == nday)
 					{
@@ -463,13 +445,13 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					else
 					{
 						ndays = nday - today;
-						days = "Due in " + Integer.toString(ndays) + " days";
+						days = "Due in " + ndays + " days";
 					}
 				}
 				
 				else if(sdate.contains("/"))
 				{
-					int amount = 0;
+					int amount;
 					test = true;
 					Calendar cal1 = Calendar.getInstance();
 					
@@ -488,7 +470,7 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					if(umonth == cmonth && uyear == cyear)
 					{
 						amount = uday - cday;
-						days = "Due in " + Integer.toString(amount) + " days";
+						days = "Due in " + amount + " days";
 					}
 					
 					else
@@ -502,7 +484,7 @@ public class addH extends JFrame implements ActionListener, ItemListener, KeyLis
 					test = false;
 				}
 				
-				if(test == true)
+				if(test)
 				{
 					
 				try

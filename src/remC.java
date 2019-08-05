@@ -1,5 +1,5 @@
-/**
- *     This file is part of JDigOrg.
+/*
+    This file is part of JDigOrg.
 
     JDigOrg is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -12,7 +12,7 @@
 
     You should have received a copy of the GNU General Public License
     along with JDigOrg.  If not, see <http://www.gnu.org/licenses/>.
-    */
+*/
 import java.awt.Container;
 import java.awt.event.*;
 import java.io.*;
@@ -23,30 +23,27 @@ import javax.swing.*;
 public class remC extends JFrame implements ActionListener, ItemListener, KeyListener
 {
 
-	String rclass;
+	private String rclass;
+
+	private JComboBox cb = new JComboBox(Digital_Organizer.classlist);
 	
-	Container co = getContentPane();
+	private JButton a = new JButton("Accept");
 	
-	JPanel top = new JPanel();
+	private JButton c = new JButton("Cancel");
 	
-	JPanel bot = new JPanel();
-	
-	JComboBox cb = new JComboBox(Digital_Organizer.classlist);
-	
-	JButton a = new JButton("Accept");
-	
-	JButton c = new JButton("Cancel");
-	
-	public remC()
+	private remC()
 	{
 		super("Remove a class");
 		setSize(500, 150);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		JPanel top = new JPanel();
 		add(top);
+		JPanel bot = new JPanel();
 		add(bot);
 		top.add(cb);
 		bot.add(a);
 		bot.add(c);
+		Container co = getContentPane();
 		co.add("North", top);
 		co.add("South", bot);
 		cb.setSelectedItem(null);
@@ -65,13 +62,13 @@ public class remC extends JFrame implements ActionListener, ItemListener, KeyLis
 		
 	}
 	
-	public static void remClass()
+	static void remClass()
 	{
 		File cl = new File("classes.dat");
 		
 		if(cl.length() > 0)
 		{
-			remC gui = new remC();
+			new remC();
 		}	
 	}
 	
@@ -79,8 +76,7 @@ public class remC extends JFrame implements ActionListener, ItemListener, KeyLis
 	public void actionPerformed(ActionEvent e) 
 	{
 		String place;
-		int count = 0;
-		
+
 		if(e.getSource() == c)
 		{
 			dispose();
@@ -103,12 +99,7 @@ public class remC extends JFrame implements ActionListener, ItemListener, KeyLis
 				
 				while((place = buffr.readLine()) != null)
 				{
-					if(place.equals(rclass))
-					{
-						
-					}
-					
-					else
+					if(!place.equals(rclass))
 					{
 						buffw.write(place);
 						buffw.newLine();
@@ -162,8 +153,6 @@ public class remC extends JFrame implements ActionListener, ItemListener, KeyLis
 		if(e.getKeyChar() == KeyEvent.VK_ENTER)
 		{
 			String place;
-			int count = 0;
-			
 			
 			try
 			{
@@ -180,12 +169,7 @@ public class remC extends JFrame implements ActionListener, ItemListener, KeyLis
 				
 				while((place = buffr.readLine()) != null)
 				{
-					if(place.equals(rclass))
-					{
-						
-					}
-					
-					else
+					if(!place.equals(rclass))
 					{
 						buffw.write(place);
 						buffw.newLine();
